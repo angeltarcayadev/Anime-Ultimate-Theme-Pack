@@ -2,12 +2,12 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 
-// Mapa de imágenes inteligentes (Wallpaper)
+// Mapa de Wallpapers
 const WALLPAPER_MAP: { [key: string]: string } = {
+    "Deku-Pack: My Hero Academia": "dekuBlack.png",
     "Deku-Pack: Jujutsu Kaisen": "jjk.png",
     "Deku-Pack: Attack on Titan": "aot.png",
     "Deku-Pack: Demon Slayer": "demon_slayer.png",
-    "Deku-Pack: My Hero Academia": "dekuBlack.png",
     "Deku-Pack: One Piece": "one_piece.png",
     "Deku-Pack: Cyberpunk Night": "cyberpunk.png",
     "Deku-Pack: Naruto Hokage": "naruto.png",
@@ -15,17 +15,20 @@ const WALLPAPER_MAP: { [key: string]: string } = {
     "Deku-Pack: Anime Classics": "classics.png"
 };
 
-// Mapa de Stickers (Personajes en la esquina)
-// Nota: Si no tienes PNGs transparentes aún, usaremos los mismos del wallpaper o los de tu carpeta images
-const STICKER_MAP: { [key: string]: string } = {
-    "Deku-Pack: My Hero Academia": "dekuBlack.png", 
-    "Deku-Pack: Jujutsu Kaisen": "jjk.png"
-    // El usuario podrá añadir más o usar personalizados
+// Mapa de Colores de Acento (Armonía de Letras e Iconos)
+const ACCENT_COLOR_MAP: { [key: string]: string } = {
+    "Deku-Pack: My Hero Academia": "#00e676", // Verde Deku
+    "Deku-Pack: Jujutsu Kaisen": "#a29bfe",    // Morado Gojo
+    "Deku-Pack: Attack on Titan": "#fab1a0",   // Arena/Titan
+    "Deku-Pack: Demon Slayer": "#ff7675",      // Rosa Sakura
+    "Deku-Pack: One Piece": "#fdcb6e",         // Amarillo Luffy
+    "Deku-Pack: Cyberpunk Night": "#00cec9",   // Cian Neón
+    "Deku-Pack: Naruto Hokage": "#e17055",      // Naranja Hokage
+    "Deku-Pack: Akira Neo Tokyo": "#d63031",   // Rojo Akira
+    "Deku-Pack: Anime Classics": "#74b9ff"     // Azul Clásico
 };
 
 export function activate(context: vscode.ExtensionContext) {
-    console.log('Deku-Pack Pro + Stickers is now active!');
-
     context.subscriptions.push(
         vscode.commands.registerCommand('deku-pack.install', () => installAssets(context)),
         vscode.commands.registerCommand('deku-pack.remove', () => removeAssets()),
@@ -33,16 +36,13 @@ export function activate(context: vscode.ExtensionContext) {
     );
 
     vscode.workspace.onDidChangeConfiguration(e => {
-        if (e.affectsConfiguration('dekuPack')) {
-            installAssets(context, true);
-        }
+        if (e.affectsConfiguration('dekuPack')) installAssets(context, true);
     });
 }
 
 async function selectTheme() {
     const themes = Object.keys(WALLPAPER_MAP).map(t => ({ label: t, id: t }));
-    const selected = await vscode.window.showQuickPick(themes, { placeHolder: 'Deku-Pack: Elige tu Anime' });
-
+    const selected = await vscode.window.showQuickPick(themes, { placeHolder: 'Deku-Pack: Elige tu Armonía' });
     if (selected) {
         await vscode.workspace.getConfiguration().update('workbench.colorTheme', selected.id, vscode.ConfigurationTarget.Global);
         vscode.commands.executeCommand('deku-pack.install');
@@ -52,134 +52,77 @@ async function selectTheme() {
 async function installAssets(context: vscode.ExtensionContext, silent = false) {
     const config = vscode.workspace.getConfiguration('dekuPack');
     const enabled = config.get<boolean>('enabled');
-    const stickerEnabled = config.get<boolean>('stickerEnabled');
-
-    // 1. Obtener URLs de imágenes
     const currentTheme = vscode.workspace.getConfiguration().get<string>('workbench.colorTheme') || "";
-    const extensionPath = context.extensionPath;
+    const accentColor = ACCENT_COLOR_MAP[currentTheme] || "#00e676";
+    const wbOpacity = config.get<number>('workbenchOpacity') ?? 0.5;
 
-    // Lógica para Wallpaper
     let wallpaperPath = config.get<string>('customBackground');
     if (!wallpaperPath) {
         const wpFile = WALLPAPER_MAP[currentTheme];
-        if (wpFile) wallpaperPath = path.join(extensionPath, 'images', wpFile);
-    }
-
-    // Lógica para Sticker
-    let stickerPath = config.get<string>('stickerCustomPath');
-    if (!stickerPath) {
-        const stFile = STICKER_MAP[currentTheme];
-        if (stFile) stickerPath = path.join(extensionPath, 'images', stFile);
+        if (wpFile) wallpaperPath = path.join(context.extensionPath, 'images', wpFile);
     }
 
     try {
         const cssPath = getCssPath();
-        let css = fs.readFileSync(cssPath, 'utf-8');
-        css = css.replace(/\/\* --- DEKU PACK START --- \*\/[\s\S]*?\/\* --- DEKU PACK END --- \*\//g, '');
-
-        if (!enabled && !stickerEnabled) {
-            fs.writeFileSync(cssPath, css, 'utf-8');
-            return;
-        }
-
+        let css = fs.readFileSync(cssPath, 'utf-8').replace(/\/\* --- DEKU PACK START --- \*\/[\s\S]*?\/\* --- DEKU PACK END --- \*\//g, '');
+        
         const markerStart = '/* --- DEKU PACK START --- */';
         const markerEnd = '/* --- DEKU PACK END --- */';
-        
-        let backgroundSection = "";
-        if (enabled && wallpaperPath) {
-            const wpUri = formatUri(wallpaperPath);
-            backgroundSection = `
+
+        // Estilos de Fondo y Translucidez
+        const backgroundStyle = enabled && wallpaperPath ? `
 body::after {
-    content: "";
-    background-image: url('${wpUri}') !important;
-    background-size: cover !important;
-    background-position: ${config.get('anchor')} !important;
-    background-attachment: fixed !important;
-    background-repeat: no-repeat !important;
-    position: absolute !important; top: 0 !important; left: 0 !important;
-    width: 100% !important; height: 100% !important;
-    z-index: -2 !important; pointer-events: none !important;
-    opacity: ${config.get('opacity')} !important;
-    filter: blur(${config.get('blur')}) !important;
-}`;
-        }
+    content: ""; background-image: url('${formatUri(wallpaperPath)}') !important;
+    background-size: cover !important; background-position: ${config.get('anchor')} !important;
+    background-attachment: fixed !important; position: absolute !important; 
+    top: 0; left: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none;
+    opacity: ${config.get('opacity')} !important; filter: blur(${config.get('blur')}) !important;
+}` : "";
 
-        let stickerSection = "";
-        if (stickerEnabled && stickerPath) {
-            const stUri = formatUri(stickerPath);
-            stickerSection = `
-/* Sticker Estilo Doki */
-[id="workbench.parts.editor"]::after {
-    content: "";
-    background-image: url('${stUri}') !important;
-    background-repeat: no-repeat !important;
-    background-position: bottom right !important;
-    background-size: contain !important;
-    position: absolute !important;
-    bottom: 10px !important; right: 10px !important;
-    width: 300px !important; height: 300px !important;
-    z-index: 100 !important; pointer-events: none !important;
-    opacity: ${config.get('stickerOpacity')} !important;
-}`;
-        }
+        // LA MAGIA: Armonía de Colores de Letras y UI
+        const harmonyStyle = `
+:root { --deku-accent: ${accentColor}; }
+.monaco-workbench { color: var(--deku-accent) !important; }
+.monaco-workbench .part > .content { background-color: rgba(15, 15, 15, ${wbOpacity}) !important; backdrop-filter: blur(10px) !important; }
+.monaco-editor, .monaco-editor-background { background-color: rgba(10, 10, 10, ${Math.min(wbOpacity + 0.1, 0.9)}) !important; }
 
-        const wbOpacity = config.get<number>('workbenchOpacity') ?? 0.5;
-        const transparencyFixes = `
-body { background-color: transparent !important; }
-.monaco-workbench, .monaco-workbench .part, .monaco-workbench .part > .content,
-.monaco-editor, .monaco-editor-background, .monaco-editor .margin,
-.editor-container, .editor-instance, .tabs-container, .tab,
-.activitybar, .activitybar .content, .sidebar, .composite.side-bar,
-.statusbar, .titlebar, .panel, .terminal,
-.monaco-list, .monaco-list-rows, .monaco-list-row {
-    background-color: rgba(20, 20, 20, ${wbOpacity}) !important;
-    background-image: none !important;
-    backdrop-filter: blur(10px) !important;
+/* Letras e Iconos con el color del tema */
+.monaco-list-row.selected .label-name, .monaco-list-row.selected .action-label,
+.tab.active .label-name, .action-item.active .action-label,
+.monaco-workbench .part.statusbar, .activitybar .action-label {
+    color: var(--deku-accent) !important;
+}
+.monaco-workbench .activitybar .content .action-item.active .action-label,
+.monaco-workbench .activitybar .content .action-item:hover .action-label {
+    color: var(--deku-accent) !important;
 }
 
-/* Mantener el editor un poco más oscuro para lectura clara */
-.monaco-editor, .monaco-editor-background {
-    background-color: rgba(15, 15, 15, ${Math.min(wbOpacity + 0.1, 0.95)}) !important;
-}
-
-[id="workbench.parts.editor"] .split-view-view .editor-container .editor-instance>.monaco-editor .overflow-guard>.monaco-scrollable-element>.monaco-editor-background { background: none !important; }
-.lines-content.monaco-editor-background { background-color: transparent !important; }
-.overflow-guard > .margin, .overflow-guard > .margin > .margin-view-overlays,
-.monaco-workbench .part.panel > .content .monaco-editor .monaco-editor-background,
-[id="workbench.panel.repl"] * { background-color: transparent !important; }
+/* Bordes y Cursillos Armónicos */
+.tab.active { border-bottom: 2px solid var(--deku-accent) !important; }
+.monaco-editor .cursor { background-color: var(--deku-accent) !important; border-color: var(--deku-accent) !important; }
 `;
 
-        const finalCss = `${markerStart}${backgroundSection}${stickerSection}${transparencyFixes}${markerEnd}`;
-        fs.writeFileSync(cssPath, css + finalCss, 'utf-8');
-
+        fs.writeFileSync(cssPath, css + markerStart + backgroundStyle + harmonyStyle + markerEnd, 'utf-8');
         if (!silent) {
-            const res = await vscode.window.showInformationMessage('Deku-Pack: Assets e Imágenes cargadas. ¡Plus Ultra!', 'Reiniciar');
+            const res = await vscode.window.showInformationMessage('Deku-Pack: Sistema de Armonía de Color instalado.', 'Reiniciar');
             if (res === 'Reiniciar') vscode.commands.executeCommand('workbench.action.reloadWindow');
         }
-    } catch (e) {
-        vscode.window.showErrorMessage('Error Deku-Pack: ' + e);
-    }
-}
-
-function formatUri(filePath: string): string {
-    if (filePath.startsWith('http')) return filePath;
-    let p = filePath.replace(/\\/g, '/');
-    if (!p.startsWith('/')) p = '/' + p;
-    return 'vscode-file://vscode-app' + p;
-}
-
-function removeAssets() {
-    try {
-        const cssPath = getCssPath();
-        let css = fs.readFileSync(cssPath, 'utf-8');
-        const cleaned = css.replace(/\/\* --- DEKU PACK START --- \*\/[\s\S]*?\/\* --- DEKU PACK END --- \*\//g, '');
-        fs.writeFileSync(cssPath, cleaned, 'utf-8');
-        vscode.window.showInformationMessage('Deku-Pack: Assets removidos. Reinicia VS Code.');
     } catch (e) { console.error(e); }
 }
 
-function getCssPath(): string {
-    // vscode.env.appRoot nos da la carpeta raíz de la instalación de VS Code
+function formatUri(p: string): string {
+    let np = p.replace(/\\/g, '/');
+    if (!np.startsWith('/')) np = '/' + np;
+    return 'vscode-file://vscode-app' + np;
+}
+
+function removeAssets() {
+    const cssPath = getCssPath();
+    const css = fs.readFileSync(cssPath, 'utf-8').replace(/\/\* --- DEKU PACK START --- \*\/[\s\S]*?\/\* --- DEKU PACK END --- \*\//g, '');
+    fs.writeFileSync(cssPath, css, 'utf-8');
+}
+
+function getCssPath() {
     return path.join(vscode.env.appRoot, 'out', 'vs', 'workbench', 'workbench.desktop.main.css');
 }
 

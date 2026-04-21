@@ -9,7 +9,7 @@
 - **Configuración Personalizada**: Cambia la opacidad, el tamaño o pon tu propia imagen desde los ajustes de VS Code.
 
 ## 🚀 Instalación
-1. Descarga el archivo `.vsix` de la sección de [Releases](tu-link-a-futuro).
+1. Descarga el archivo `.vsix` de la sección de [Releases](https://github.com/angeltarcayadev/Anime-Ultimate-Theme-Pack/releases).
 2. En VS Code, ve a la pestaña de Extensiones, haz clic en los tres puntos `...` y elige **Install from VSIX**.
 3. Presiona `Ctrl + Shift + P` y ejecuta el comando: `Deku Theme: Instalar Wallpaper`.
 4. Reinicia VS Code.

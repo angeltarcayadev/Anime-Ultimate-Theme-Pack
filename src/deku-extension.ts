@@ -87,8 +87,10 @@ body::after {
         const harmonyStyle = `
 :root { --deku-accent: ${accentColor}; }
 .monaco-workbench { color: var(--deku-accent) !important; }
-.monaco-workbench .part > .content { background-color: rgba(15, 15, 15, ${wbOpacity}) !important; backdrop-filter: blur(10px) !important; }
-.monaco-editor, .monaco-editor-background { background-color: rgba(10, 10, 10, ${Math.min(wbOpacity + 0.1, 0.9)}) !important; }
+.monaco-workbench .part > .content, .monaco-editor, .monaco-editor-background { 
+    background-color: rgba(15, 15, 15, ${wbOpacity}) !important; 
+    backdrop-filter: blur(10px) !important; 
+}
 
 /* Letras e Iconos con el color del tema */
 .monaco-list-row.selected .label-name, .monaco-list-row.selected .action-label,

@@ -72,30 +72,31 @@ async function applyAnimeWallpaper(context: vscode.ExtensionContext, silent: boo
 
         const injectedCss = `
 ${markerStart}
+/* Animación y Setup base */
 body {
     background-color: transparent !important;
 }
+
 body::after {
     content: "";
     background-image: url('${cssImg}') !important;
     background-size: cover !important;
     background-position: ${anchor} !important;
+    background-attachment: fixed !important;
     background-repeat: no-repeat !important;
     position: absolute !important;
     top: 0 !important;
     left: 0 !important;
     width: 100% !important;
     height: 100% !important;
-    z-index: 0 !important;
+    z-index: -1 !important;
     pointer-events: none !important;
     opacity: ${opacity} !important;
     filter: blur(${blur}) !important;
 }
-/* Forzar transparencia en toda la UI de VS Code */
-.monaco-workbench {
-    background: transparent !important;
-    z-index: 1 !important;
-}
+
+/* Forzar transparencia en toda la UI de VS Code al estilo Doki Theme */
+.monaco-workbench,
 .monaco-workbench .part,
 .monaco-workbench .part > .content,
 .monaco-editor,
@@ -116,8 +117,39 @@ body::after {
 .monaco-list,
 .monaco-list-rows,
 .monaco-list-row {
-    background: transparent !important;
     background-color: transparent !important;
+    background-image: none !important;
+}
+
+/* Doki Theme CSS Overrides específicos para evitar bugs de visualización */
+[id="workbench.parts.editor"] .split-view-view .editor-container .editor-instance>.monaco-editor .overflow-guard>.monaco-scrollable-element>.monaco-editor-background { background: none !important; }
+.lines-content.monaco-editor-background { background-color: transparent !important; }
+.overflow-guard > .margin,
+.overflow-guard > .margin > .margin-view-overlays,
+.monaco-workbench .part.panel > .content .monaco-editor .monaco-editor-background,
+[id="workbench.panel.repl"] * {
+    background-color: transparent !important;
+}
+.monaco-list.list_id_1 .monaco-list-rows,
+.settings-tree-container > .monaco-list > .monaco-scrollable-element > .monaco-list-rows,
+.monaco-list.list_id_2:not(.drop-target) .monaco-list-row:hover:not(.selected):not(.focused) {
+    background-color: transparent !important;
+}
+[id="workbench.view.explorer"] .monaco-list-rows,
+[id="workbench.view.explorer"] .pane-header,
+[id="workbench.view.explorer"] .monaco-pane-view,
+[id="workbench.view.explorer"] .split-view-view,
+[id="workbench.view.explorer"] .monaco-tl-twistie,
+[id="terminal"] .pane-header,
+[id="terminal"] .monaco-pane-view,
+.explorer-folders-view > .monaco-list > .monaco-scrollable-element > .monaco-list-rows,
+.show-file-icons > .monaco-list > .monaco-scrollable-element > .monaco-list-rows,
+.extensions-list > .monaco-list > .monaco-scrollable-element > .monaco-list-rows,
+div.details .header-container .header,
+.monaco-workbench .part.editor>.content .gettingStartedContainer .gettingStartedSlideCategories>.gettingStartedCategoriesContainer>.header,
+.monaco-workbench .part.editor>.content .gettingStartedContainer .gettingStartedSlideCategories .getting-started-category {
+    background-color: transparent !important;
+    border: none !important;
 }
 ${markerEnd}
 `;

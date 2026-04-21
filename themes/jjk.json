@@ -1,13 +1,20 @@
 {
   "name": "Jujutsu Kaisen: Gojo Satoru",
   "colors": {
-    "editor.background": "#0D1117",
+    "activityBar.background": "#02040A",
+    "activityBar.foreground": "#58A6FF",
+    "sideBar.background": "#0D1117",
+    "sideBar.foreground": "#C9D1D9",
+    "editor.background": "#0D1117CC",
     "editor.foreground": "#C9D1D9",
-    "activityBar.background": "#010409",
-    "sideBar.background": "#010409",
-    "statusBar.background": "#010409",
-    "editorCursor.foreground": "#58A6FF",
-    "editor.selectionBackground": "#1F6FEB88",
-    "activityBar.foreground": "#58A6FF"
-  }
+    "statusBar.background": "#02040A",
+    "tab.activeBackground": "#1F2937",
+    "tab.activeForeground": "#58A6FF",
+    "editorCursor.foreground": "#58A6FF"
+  },
+  "tokenColors": [
+    { "scope": "keyword", "settings": { "foreground": "#58A6FF" } },
+    { "scope": "function", "settings": { "foreground": "#D2A8FF" } },
+    { "scope": "comment", "settings": { "foreground": "#8B949E" } }
+  ]
 }

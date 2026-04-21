@@ -35,7 +35,7 @@ function getCssPath(): string {
     return '';
 }
 
-async function applyAnimeWallpaper(context: vscode.ExtensionContext, specificImage?: string) {
+async function applyAnimeWallpaper(context: vscode.ExtensionContext, silent: boolean = false, forceImage?: string) {
     try {
         const cssPath = getCssPath();
         if (!cssPath) return;
@@ -44,22 +44,16 @@ async function applyAnimeWallpaper(context: vscode.ExtensionContext, specificIma
         const opacity = config.get<number>('opacity', 0.15);
         const blur = config.get<string>('blur', '0px');
         const anchor = config.get<string>('anchor', 'center');
-        const customPath = config.get<string>('path', '');
 
-        let imageToUse = "";
-        if (customPath && fs.existsSync(customPath)) {
-            imageToUse = customPath;
-        } else if (specificImage) {
-            imageToUse = context.asAbsolutePath(path.join('images', specificImage));
-        } else {
-            const currentTheme = vscode.workspace.getConfiguration('workbench').get<string>('colorTheme') || "";
-            imageToUse = context.asAbsolutePath(path.join('images', THEME_IMAGE_MAP[currentTheme] || 'dekuBlack.png'));
-        }
+        const currentTheme = vscode.workspace.getConfiguration('workbench').get<string>('colorTheme') || "";
+        const imageFile = forceImage || THEME_IMAGE_MAP[currentTheme] || 'dekuBlack.png';
+        const imagePath = context.asAbsolutePath(path.join('images', imageFile));
 
-        const cssImg = 'file:///' + imageToUse.replace(/\\/g, '/');
-        const markerStart = '/* --- ANIME PACK START --- */';
-        const markerEnd = '/* --- ANIME PACK END --- */';
+        const cssImg = 'file:///' + imagePath.replace(/\\/g, '/');
+        const markerStart = '/* --- ANIME PACK PRO START --- */';
+        const markerEnd = '/* --- ANIME PACK PRO END --- */';
 
+        // CSS agresivo para transparencia total
         const injectedCss = `
 ${markerStart}
 body::after {
@@ -68,13 +62,23 @@ body::after {
     background-size: cover !important;
     background-position: ${anchor} !important;
     background-repeat: no-repeat !important;
-    background-attachment: fixed !important;
     position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
     opacity: ${opacity} !important;
     filter: blur(${blur}) !important;
-    pointer-events: none;
 }
-.monaco-workbench, .monaco-workbench .part, .monaco-editor, .monaco-editor-background {
+/* Forzar transparencia en TODAS las capas */
+.monaco-workbench, 
+.monaco-workbench .part, 
+.monaco-workbench .part > .content,
+.monaco-editor, 
+.monaco-editor .margin, 
+.monaco-editor-background,
+.editor-container, 
+.editor-instance,
+.tabs-container,
+.tab,
+.composite.side-bar,
+.activitybar .content {
     background-color: transparent !important;
 }
 ${markerEnd}
@@ -82,35 +86,42 @@ ${markerEnd}
 
         let css = fs.readFileSync(cssPath, 'utf8');
         if (css.includes(markerStart)) {
-            const regex = new RegExp(`\\/\\* --- ANIME PACK START --- \\*\\/[\\s\\S]*?\\/\\* --- ANIME PACK END --- \\*\\/`, 'g');
+            const regex = new RegExp(`\\/\\* --- ANIME PACK PRO START --- \\*\\/[\\s\\S]*?\\/\\* --- ANIME PACK PRO END --- \\*\\/`, 'g');
             css = css.replace(regex, injectedCss);
         } else {
             css += injectedCss;
         }
         fs.writeFileSync(cssPath, css, 'utf8');
-        
-        const action = await vscode.window.showInformationMessage('¡Anime Background Aplicado!', 'Reiniciar');
-        if (action === 'Reiniciar') vscode.commands.executeCommand('workbench.action.reloadWindow');
-    } catch (e: any) {
-        vscode.window.showErrorMessage('Error: ' + e.message);
-    }
+
+        if (!silent) {
+            const action = await vscode.window.showInformationMessage('¡Visualización Pro Aplicada!', 'Reiniciar');
+            if (action === 'Reiniciar') vscode.commands.executeCommand('workbench.action.reloadWindow');
+        }
+    } catch (e) {}
 }
 
 export function activate(context: vscode.ExtensionContext) {
+    // Escuchar cuando el usuario cambia de TEMA de colores
+    vscode.workspace.onDidChangeConfiguration(e => {
+        if (e.affectsConfiguration('workbench.colorTheme') || e.affectsConfiguration('animeTheme.background')) {
+            applyAnimeWallpaper(context, true);
+        }
+    });
+
     context.subscriptions.push(
-        vscode.commands.registerCommand('animeTheme.installBackground', () => applyAnimeWallpaper(context)),
+        vscode.commands.registerCommand('animeTheme.installBackground', () => applyAnimeWallpaper(context, false)),
         vscode.commands.registerCommand('animeTheme.chooseBackground', async () => {
             const items = Object.entries(THEME_IMAGE_MAP).map(([label, img]) => ({ label, img }));
-            const choice = await vscode.window.showQuickPick(items, { placeHolder: 'Elige el fondo de tu anime favorito' });
-            if (choice) applyAnimeWallpaper(context, choice.img);
+            const choice = await vscode.window.showQuickPick(items, { placeHolder: 'Escoge fondo manual' });
+            if (choice) applyAnimeWallpaper(context, false, choice.img);
         }),
         vscode.commands.registerCommand('animeTheme.removeBackground', async () => {
             const cssPath = getCssPath();
             if (!cssPath) return;
             let css = fs.readFileSync(cssPath, 'utf8');
-            const regex = new RegExp(`\\/\\* --- ANIME PACK START --- \\*\\/[\\s\\S]*?\\/\\* --- ANIME PACK END --- \\*\\/`, 'g');
+            const regex = new RegExp(`\\/\\* --- ANIME PACK PRO START --- \\*\\/[\\s\\S]*?\\/\\* --- ANIME PACK PRO END --- \\*\\/`, 'g');
             fs.writeFileSync(cssPath, css.replace(regex, ''), 'utf8');
-            vscode.window.showInformationMessage('Background eliminado.');
+            vscode.window.showInformationMessage('Wallpaper eliminado.');
         })
     );
 }

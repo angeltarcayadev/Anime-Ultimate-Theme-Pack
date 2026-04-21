@@ -1,12 +1,23 @@
 {
   "name": "Attack on Titan: Eren",
   "colors": {
-    "editor.background": "#1A1614",
-    "editor.foreground": "#D4C4B5",
     "activityBar.background": "#14110F",
-    "sideBar.background": "#14110F",
+    "activityBar.foreground": "#8B0000",
+    "sideBar.background": "#1A1614",
+    "sideBar.foreground": "#D4C4B5",
+    "editor.background": "#1A1614CC", 
+    "editor.foreground": "#D4C4B5",
     "statusBar.background": "#3C2A21",
-    "editorCursor.foreground": "#8B0000",
-    "activityBar.foreground": "#8B0000"
-  }
+    "statusBar.foreground": "#D4C4B5",
+    "tab.activeBackground": "#3C2A21",
+    "tab.activeForeground": "#FFD700",
+    "titleBar.activeBackground": "#14110F",
+    "list.hoverBackground": "#3C2A21",
+    "editorCursor.foreground": "#8B0000"
+  },
+  "tokenColors": [
+    { "scope": "keyword", "settings": { "foreground": "#8B0000", "fontStyle": "bold" } },
+    { "scope": "string", "settings": { "foreground": "#9E8E7E" } },
+    { "scope": "comment", "settings": { "foreground": "#5D514A" } }
+  ]
 }

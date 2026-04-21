@@ -11,6 +11,9 @@
     "url": "https://github.com/angeltarcayadev/Anime-Ultimate-Theme-Pack.git"
   },
   "description": "9 Stunning Anime Themes (Naruto, JJK, AoT, MHA, One Piece, and more) with immersive background images.",
+  "activationEvents": [
+    "*"
+  ],
   "categories": [
     "Themes"
   ],

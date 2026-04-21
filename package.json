@@ -1,7 +1,7 @@
 {
   "name": "anime-ultimate-theme-pack",
   "displayName": "Anime Theme Pack: Plus Ultra Edition",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "publisher": "deku-dev",
   "repository": {
     "type": "git",
@@ -41,7 +41,9 @@
     "commands": [
       { "command": "animeTheme.installBackground", "title": "Anime Theme: Install Background for Current Theme" },
       { "command": "animeTheme.removeBackground", "title": "Anime Theme: Remove Background Image" },
-      { "command": "animeTheme.chooseBackground", "title": "Anime Theme: Choose and Install Background" }
+      { "command": "animeTheme.chooseBackground", "title": "Anime Theme: Choose and Install Background" },
+      { "command": "animeTheme.setOpacity", "title": "Anime Theme: Set Background Opacity (Translucency)" },
+      { "command": "animeTheme.setBlur", "title": "Anime Theme: Set Background Blur" }
     ]
   },
   "scripts": {

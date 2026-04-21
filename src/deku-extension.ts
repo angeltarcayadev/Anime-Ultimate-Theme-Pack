@@ -171,7 +171,8 @@ function removeAssets() {
 }
 
 function getCssPath(): string {
-    return path.join(path.dirname(require.main!.filename), 'vs', 'workbench', 'workbench.desktop.main.css');
+    // vscode.env.appRoot nos da la carpeta raíz de la instalación de VS Code
+    return path.join(vscode.env.appRoot, 'out', 'vs', 'workbench', 'workbench.desktop.main.css');
 }
 
 export function deactivate() {}

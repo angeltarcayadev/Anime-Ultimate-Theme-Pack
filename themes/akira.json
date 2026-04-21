@@ -1,9 +1,12 @@
 {
   "name": "Akira: Neo Tokyo",
   "colors": {
-    "editor.background": "#0A0A0A",
+    "editor.background": "#00000000",
     "editor.foreground": "#FF3333",
-    "activityBar.background": "#000000",
-    "statusBar.background": "#CC0000"
+    "activityBar.background": "#00000000",
+    "statusBar.background": "#CC0000",
+    "sideBar.background": "#0a0a0ab3",
+    "panel.background": "#0a0a0ab3",
+    "terminal.background": "#00000000"
   }
 }

@@ -2,27 +2,72 @@
   "name": "Jujutsu Kaisen: Gojo Satoru",
   "type": "dark",
   "colors": {
-    "activityBar.background": "#02040A",
+    "activityBar.background": "#00000000",
     "activityBar.foreground": "#58A6FF",
-    "sideBar.background": "#0D1117",
+    "sideBar.background": "#0a0a0ab3",
     "sideBar.foreground": "#C9D1D9",
-    "editor.background": "#0D1117CC",
+    "editor.background": "#00000000",
     "editor.foreground": "#C9D1D9",
     "statusBar.background": "#02040A",
     "tab.activeBackground": "#1F2937",
     "tab.activeForeground": "#58A6FF",
     "editorCursor.foreground": "#58A6FF",
-    "terminal.background": "#0D1117",
+    "terminal.background": "#00000000",
     "terminal.ansiBlue": "#58A6FF",
-    "terminal.ansiMagenta": "#BC8CFF"
+    "terminal.ansiMagenta": "#BC8CFF",
+    "panel.background": "#0a0a0ab3"
   },
   "tokenColors": [
-    { "name": "Keywords", "scope": "keyword, storage.type, storage.modifier", "settings": { "foreground": "#58A6FF", "fontStyle": "bold" } },
-    { "name": "Functions", "scope": "entity.name.function, support.function", "settings": { "foreground": "#D2A8FF" } },
-    { "name": "Strings", "scope": "string", "settings": { "foreground": "#A5D6FF" } },
-    { "name": "Variables", "scope": "variable, variable.parameter", "settings": { "foreground": "#FFA657" } },
-    { "name": "Types", "scope": "entity.name.type, support.type", "settings": { "foreground": "#FF7B72" } },
-    { "name": "Numbers", "scope": "constant.numeric", "settings": { "foreground": "#79C0FF" } },
-    { "name": "Comments", "scope": "comment", "settings": { "foreground": "#8B949E", "fontStyle": "italic" } }
+    {
+      "name": "Keywords",
+      "scope": "keyword, storage.type, storage.modifier",
+      "settings": {
+        "foreground": "#58A6FF",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "name": "Functions",
+      "scope": "entity.name.function, support.function",
+      "settings": {
+        "foreground": "#D2A8FF"
+      }
+    },
+    {
+      "name": "Strings",
+      "scope": "string",
+      "settings": {
+        "foreground": "#A5D6FF"
+      }
+    },
+    {
+      "name": "Variables",
+      "scope": "variable, variable.parameter",
+      "settings": {
+        "foreground": "#FFA657"
+      }
+    },
+    {
+      "name": "Types",
+      "scope": "entity.name.type, support.type",
+      "settings": {
+        "foreground": "#FF7B72"
+      }
+    },
+    {
+      "name": "Numbers",
+      "scope": "constant.numeric",
+      "settings": {
+        "foreground": "#79C0FF"
+      }
+    },
+    {
+      "name": "Comments",
+      "scope": "comment",
+      "settings": {
+        "foreground": "#8B949E",
+        "fontStyle": "italic"
+      }
+    }
   ]
 }

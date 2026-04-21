@@ -2,37 +2,49 @@
   "name": "Deku Dark Theme",
   "type": "dark",
   "colors": {
-    "editor.background": "#00000000", 
-    "sideBar.background": "#0d1117",
-    "activityBar.background": "#090c10",
+    "editor.background": "#00000000",
+    "sideBar.background": "#0a0a0ab3",
+    "activityBar.background": "#00000000",
     "activityBar.foreground": "#00ffcc",
-    "editorLineNumber.activeForeground": "#00ffcc"
+    "editorLineNumber.activeForeground": "#00ffcc",
+    "panel.background": "#0a0a0ab3",
+    "terminal.background": "#00000000"
   },
   "tokenColors": [
     {
       "name": "Keywords",
-      "scope": ["keyword", "storage.type", "storage.modifier"],
+      "scope": [
+        "keyword",
+        "storage.type",
+        "storage.modifier"
+      ],
       "settings": {
         "foreground": "#00ffcc"
       }
     },
     {
       "name": "Strings",
-      "scope": ["string"],
+      "scope": [
+        "string"
+      ],
       "settings": {
         "foreground": "#a5d6a7"
       }
     },
     {
       "name": "Functions",
-      "scope": ["entity.name.function"],
+      "scope": [
+        "entity.name.function"
+      ],
       "settings": {
         "foreground": "#64ffda"
       }
     },
     {
       "name": "Variables",
-      "scope": ["variable"],
+      "scope": [
+        "variable"
+      ],
       "settings": {
         "foreground": "#e0f2f1"
       }

@@ -1,11 +1,11 @@
 {
   "name": "Attack on Titan: Eren",
   "colors": {
-    "activityBar.background": "#14110F",
+    "activityBar.background": "#00000000",
     "activityBar.foreground": "#8B0000",
-    "sideBar.background": "#1A1614",
+    "sideBar.background": "#0a0a0ab3",
     "sideBar.foreground": "#D4C4B5",
-    "editor.background": "#1A1614CC", 
+    "editor.background": "#00000000",
     "editor.foreground": "#D4C4B5",
     "statusBar.background": "#3C2A21",
     "statusBar.foreground": "#D4C4B5",
@@ -13,11 +13,29 @@
     "tab.activeForeground": "#FFD700",
     "titleBar.activeBackground": "#14110F",
     "list.hoverBackground": "#3C2A21",
-    "editorCursor.foreground": "#8B0000"
+    "editorCursor.foreground": "#8B0000",
+    "panel.background": "#0a0a0ab3",
+    "terminal.background": "#00000000"
   },
   "tokenColors": [
-    { "scope": "keyword", "settings": { "foreground": "#8B0000", "fontStyle": "bold" } },
-    { "scope": "string", "settings": { "foreground": "#9E8E7E" } },
-    { "scope": "comment", "settings": { "foreground": "#5D514A" } }
+    {
+      "scope": "keyword",
+      "settings": {
+        "foreground": "#8B0000",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "scope": "string",
+      "settings": {
+        "foreground": "#9E8E7E"
+      }
+    },
+    {
+      "scope": "comment",
+      "settings": {
+        "foreground": "#5D514A"
+      }
+    }
   ]
 }

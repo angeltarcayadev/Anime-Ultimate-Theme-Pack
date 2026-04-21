@@ -1,9 +1,12 @@
 {
   "name": "Anime Classics",
   "colors": {
-    "editor.background": "#121212",
+    "editor.background": "#00000000",
     "editor.foreground": "#E0E0E0",
-    "activityBar.background": "#080808",
-    "statusBar.background": "#424242"
+    "activityBar.background": "#00000000",
+    "statusBar.background": "#424242",
+    "sideBar.background": "#0a0a0ab3",
+    "panel.background": "#0a0a0ab3",
+    "terminal.background": "#00000000"
   }
 }

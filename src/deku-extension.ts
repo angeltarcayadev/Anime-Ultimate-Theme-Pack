@@ -46,12 +46,17 @@ async function applyAnimeWallpaper(context: vscode.ExtensionContext, silent: boo
         const anchor = config.get<string>('anchor', 'center');
 
         const currentTheme = vscode.workspace.getConfiguration('workbench').get<string>('colorTheme') || "";
-        const imageFile = forceImage || THEME_IMAGE_MAP[currentTheme] || 'dekuBlack.png';
-        const imagePath = context.asAbsolutePath(path.join('images', imageFile));
+        let imageFile = forceImage || THEME_IMAGE_MAP[currentTheme] || 'dekuBlack.png';
+        let imagePath = context.asAbsolutePath(path.join('images', imageFile));
 
         if (!fs.existsSync(imagePath)) {
-            if (!silent) vscode.window.showErrorMessage(`No se encontró la imagen: ${imageFile}`);
-            return;
+            // Fallback to default image if specific theme image is missing
+            imageFile = 'dekuBlack.png';
+            imagePath = context.asAbsolutePath(path.join('images', imageFile));
+            if (!fs.existsSync(imagePath)) {
+                if (!silent) vscode.window.showErrorMessage(`No se encontró la imagen por defecto.`);
+                return;
+            }
         }
 
         const cssImg = 'file:///' + imagePath.replace(/\\/g, '/');

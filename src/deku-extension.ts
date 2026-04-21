@@ -35,8 +35,12 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.commands.registerCommand('deku-pack.select-theme', () => selectTheme())
     );
 
+    // Auto-instalación inmediata al cambiar configuraciones
     vscode.workspace.onDidChangeConfiguration(e => {
-        if (e.affectsConfiguration('dekuPack')) installAssets(context, true);
+        if (e.affectsConfiguration('dekuPack')) {
+            // Llamamos con silent = false para que el usuario reciba el aviso de reiniciar al momento
+            installAssets(context, false);
+        }
     });
 }
 

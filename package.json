@@ -12,7 +12,7 @@
   },
   "description": "9 Stunning Anime Themes (Naruto, JJK, AoT, MHA, One Piece, and more) with immersive background images.",
   "activationEvents": [
-    "*"
+    "onStartupFinished"
   ],
   "categories": [
     "Themes"

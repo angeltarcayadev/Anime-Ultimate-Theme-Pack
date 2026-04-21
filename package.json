@@ -42,11 +42,11 @@
       }
     },
     "commands": [
-      { "command": "animeTheme.installBackground", "title": "Anime Theme: Install Background for Current Theme" },
-      { "command": "animeTheme.removeBackground", "title": "Anime Theme: Remove Background Image" },
-      { "command": "animeTheme.chooseBackground", "title": "Anime Theme: Choose and Install Background" },
-      { "command": "animeTheme.setOpacity", "title": "Anime Theme: Set Background Opacity (Translucency)" },
-      { "command": "animeTheme.setBlur", "title": "Anime Theme: Set Background Blur" }
+      { "command": "animeTheme.installBackground", "category": "Anime Theme", "title": "Install Background for Current Theme" },
+      { "command": "animeTheme.removeBackground", "category": "Anime Theme", "title": "Remove Background Image" },
+      { "command": "animeTheme.chooseBackground", "category": "Anime Theme", "title": "Choose and Install Background" },
+      { "command": "animeTheme.setOpacity", "category": "Anime Theme", "title": "Set Background Opacity" },
+      { "command": "animeTheme.setBlur", "category": "Anime Theme", "title": "Set Background Blur" }
     ],
     "configurationDefaults": {
       "editor.cursorBlinking": "expand",

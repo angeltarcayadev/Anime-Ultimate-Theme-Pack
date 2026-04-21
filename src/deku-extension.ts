@@ -87,7 +87,7 @@ body::after {
         const harmonyStyle = `
 :root { --deku-accent: ${accentColor}; }
 .monaco-workbench { color: var(--deku-accent) !important; }
-.monaco-workbench .part > .content, .monaco-editor, .monaco-editor-background { 
+.monaco-workbench .part > .content, .monaco-editor, .monaco-editor-background, .gettingStartedContainer { 
     background-color: rgba(15, 15, 15, ${wbOpacity}) !important; 
     backdrop-filter: blur(10px) !important; 
 }

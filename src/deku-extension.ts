@@ -54,9 +54,8 @@ async function selectAnimeTheme() {
         vscode.window.showInformationMessage(`Deku-Pack: Tema "${selected.label}" aplicado con éxito.`);
         
         // Ejecutamos la instalación de assets inmediatamente después de cambiar el tema
-        setTimeout(() => {
-            installThemeAssets(vscode.extensions.getExtension('angeltarcayadev.anime-ultimate-theme-pack')!.extensionContext);
-        }, 500);
+        // No necesitamos pasar el context aquí si lo manejamos globalmente o lo extraemos
+        vscode.commands.executeCommand('deku-pack.install');
     }
 }
 

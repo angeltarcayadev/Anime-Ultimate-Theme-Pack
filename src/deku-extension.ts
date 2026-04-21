@@ -92,12 +92,17 @@ body::after {
     backdrop-filter: blur(10px) !important; 
 }
 
-/* Letras e Iconos con el color del tema */
+/* Letras e Iconos con el color del tema (UI Total) */
 .monaco-list-row.selected .label-name, .monaco-list-row.selected .action-label,
 .tab.active .label-name, .action-item.active .action-label,
-.monaco-workbench .part.statusbar, .activitybar .action-label {
+.monaco-workbench .part.statusbar, .activitybar .action-label,
+.menubar-menu-button, .menubar-menu-title, /* Barra de menús superior */
+.composite.side-bar .title-label h2, /* Título Explorador */
+.monaco-link, /* Enlaces y botones de bienvenida */
+.monaco-button.monaco-text-button {
     color: var(--deku-accent) !important;
 }
+
 .monaco-workbench .activitybar .content .action-item.active .action-label,
 .monaco-workbench .activitybar .content .action-item:hover .action-label {
     color: var(--deku-accent) !important;
@@ -106,6 +111,8 @@ body::after {
 /* Bordes y Cursillos Armónicos */
 .tab.active { border-bottom: 2px solid var(--deku-accent) !important; }
 .monaco-editor .cursor { background-color: var(--deku-accent) !important; border-color: var(--deku-accent) !important; }
+.menubar-menu-button:hover { background-color: rgba(255, 255, 255, 0.1) !important; }
+
 `;
 
         fs.writeFileSync(cssPath, css + markerStart + backgroundStyle + harmonyStyle + markerEnd, 'utf-8');

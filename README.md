@@ -24,4 +24,4 @@ Ve a `Settings` (Ctrl + ,) y busca **Deku Theme**:
 Al modificar el CSS interno de VS Code para permitir transparencias, podrías ver un aviso de **"Installation is corrupt"**. Esto es **NORMAL** y esperado al inyectar estilos personalizados. Simplemente haz clic en el engranaje del aviso y selecciona "Don't show again".
 
 ---
-Desarrollado con ❤️ por **Deku-Dev**.
+Desarrollado con ❤️ por **angeltarcayadev**.

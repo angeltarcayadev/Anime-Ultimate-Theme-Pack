@@ -1,5 +1,6 @@
 {
   "name": "Jujutsu Kaisen: Gojo Satoru",
+  "type": "dark",
   "colors": {
     "activityBar.background": "#02040A",
     "activityBar.foreground": "#58A6FF",
@@ -10,11 +11,18 @@
     "statusBar.background": "#02040A",
     "tab.activeBackground": "#1F2937",
     "tab.activeForeground": "#58A6FF",
-    "editorCursor.foreground": "#58A6FF"
+    "editorCursor.foreground": "#58A6FF",
+    "terminal.background": "#0D1117",
+    "terminal.ansiBlue": "#58A6FF",
+    "terminal.ansiMagenta": "#BC8CFF"
   },
   "tokenColors": [
-    { "scope": "keyword", "settings": { "foreground": "#58A6FF" } },
-    { "scope": "function", "settings": { "foreground": "#D2A8FF" } },
-    { "scope": "comment", "settings": { "foreground": "#8B949E" } }
+    { "name": "Keywords", "scope": "keyword, storage.type, storage.modifier", "settings": { "foreground": "#58A6FF", "fontStyle": "bold" } },
+    { "name": "Functions", "scope": "entity.name.function, support.function", "settings": { "foreground": "#D2A8FF" } },
+    { "name": "Strings", "scope": "string", "settings": { "foreground": "#A5D6FF" } },
+    { "name": "Variables", "scope": "variable, variable.parameter", "settings": { "foreground": "#FFA657" } },
+    { "name": "Types", "scope": "entity.name.type, support.type", "settings": { "foreground": "#FF7B72" } },
+    { "name": "Numbers", "scope": "constant.numeric", "settings": { "foreground": "#79C0FF" } },
+    { "name": "Comments", "scope": "comment", "settings": { "foreground": "#8B949E", "fontStyle": "italic" } }
   ]
 }

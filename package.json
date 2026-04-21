@@ -1,15 +1,15 @@
 {
   "name": "anime-ultimate-theme-pack",
   "displayName": "Anime Theme Pack: Plus Ultra Edition",
-  "version": "2.2.0",
-  "publisher": "deku-dev",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/angeltarcayadev/Anime-Ultimate-Theme-Pack.git"
-  },
+  "version": "2.3.0",
+  "publisher": "angeltarcayadev",
   "description": "9 Stunning Anime Themes (Naruto, JJK, AoT, MHA, One Piece, and more) with immersive background images.",
   "engines": {
     "vscode": "^1.90.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/angeltarcayadev/Anime-Ultimate-Theme-Pack.git"
   },
   "categories": [
     "Themes"
@@ -44,7 +44,15 @@
       { "command": "animeTheme.chooseBackground", "title": "Anime Theme: Choose and Install Background" },
       { "command": "animeTheme.setOpacity", "title": "Anime Theme: Set Background Opacity (Translucency)" },
       { "command": "animeTheme.setBlur", "title": "Anime Theme: Set Background Blur" }
-    ]
+    ],
+    "configurationDefaults": {
+      "editor.cursorBlinking": "expand",
+      "editor.cursorSmoothCaretAnimation": "on",
+      "editor.fontLigatures": true,
+      "editor.minimap.enabled": false,
+      "workbench.list.smoothScrolling": true,
+      "terminal.integrated.gpuAcceleration": "on"
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",

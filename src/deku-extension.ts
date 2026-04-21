@@ -2,62 +2,100 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 
-export function activate(context: vscode.ExtensionContext) {
-    console.log('Deku-Pack is now active!');
+// Mapa de imágenes por defecto para cada tema de nuestro pack
+const THEME_IMAGE_MAP: { [key: string]: string } = {
+    "Deku-Pack: Jujutsu Kaisen": "jjk.png",
+    "Deku-Pack: Attack on Titan": "aot.png",
+    "Deku-Pack: Demon Slayer": "demon_slayer.png",
+    "Deku-Pack: Akira Neo Tokyo": "akira.png",
+    "Deku-Pack: Anime Classics": "classics.png",
+    "Deku-Pack: My Hero Academia": "dekuBlack.png",
+    "Deku-Pack: One Piece": "one_piece.png",
+    "Deku-Pack: Cyberpunk Night": "cyberpunk.png",
+    "Deku-Pack: Naruto Hokage": "naruto.png"
+};
 
-    // Registrar comandos con el nuevo branding
+export function activate(context: vscode.ExtensionContext) {
+    console.log('Deku-Pack Pro is now active!');
+
     context.subscriptions.push(
         vscode.commands.registerCommand('deku-pack.install', () => installThemeAssets(context)),
         vscode.commands.registerCommand('deku-pack.remove', () => removeThemeAssets()),
         vscode.commands.registerCommand('deku-pack.select-theme', () => selectAnimeTheme())
     );
 
-    // Escuchar cambios en la configuración para auto-aplicar cambios
+    // Auto-instalación al cambiar configuraciones
     vscode.workspace.onDidChangeConfiguration(e => {
         if (e.affectsConfiguration('dekuPack')) {
-            installThemeAssets(context, true); // Silent update
+            installThemeAssets(context, true);
         }
     });
 }
 
 async function selectAnimeTheme() {
     const themes = [
-        { label: 'My Hero Academia', id: 'Deku-Pack: My Hero Academia' },
-        { label: 'Jujutsu Kaisen', id: 'Deku-Pack: Jujutsu Kaisen' },
-        { label: 'Attack on Titan', id: 'Deku-Pack: Attack on Titan' },
-        { label: 'Demon Slayer', id: 'Deku-Pack: Demon Slayer' },
-        { label: 'One Piece', id: 'Deku-Pack: One Piece' },
-        { label: 'Cyberpunk Night', id: 'Deku-Pack: Cyberpunk Night' },
-        { label: 'Naruto Hokage', id: 'Deku-Pack: Naruto Hokage' },
-        { label: 'Akira Neo Tokyo', id: 'Deku-Pack: Akira Neo Tokyo' },
-        { label: 'Anime Classics', id: 'Deku-Pack: Anime Classics' }
+        { label: 'Deku-Pack: My Hero Academia', id: 'Deku-Pack: My Hero Academia' },
+        { label: 'Deku-Pack: Jujutsu Kaisen', id: 'Deku-Pack: Jujutsu Kaisen' },
+        { label: 'Deku-Pack: Attack on Titan', id: 'Deku-Pack: Attack on Titan' },
+        { label: 'Deku-Pack: Demon Slayer', id: 'Deku-Pack: Demon Slayer' },
+        { label: 'Deku-Pack: One Piece', id: 'Deku-Pack: One Piece' },
+        { label: 'Deku-Pack: Cyberpunk Night', id: 'Deku-Pack: Cyberpunk Night' },
+        { label: 'Deku-Pack: Naruto Hokage', id: 'Deku-Pack: Naruto Hokage' },
+        { label: 'Deku-Pack: Akira Neo Tokyo', id: 'Deku-Pack: Akira Neo Tokyo' },
+        { label: 'Deku-Pack: Anime Classics', id: 'Deku-Pack: Anime Classics' }
     ];
 
     const selected = await vscode.window.showQuickPick(themes, {
-        placeHolder: 'Selecciona tu tema de Anime favorito'
+        placeHolder: 'Selecciona un tema de Anime de Deku-Pack'
     });
 
     if (selected) {
-        // 1. Cambiar el tema de color oficial de VS Code
         await vscode.workspace.getConfiguration().update('workbench.colorTheme', selected.id, vscode.ConfigurationTarget.Global);
+        vscode.window.showInformationMessage(`Deku-Pack: Tema "${selected.label}" aplicado con éxito.`);
         
-        // 2. Notificar e instalar los assets visuales (Background)
-        vscode.window.showInformationMessage(`Deku-Pack: Tema ${selected.label} activado.`);
-        vscode.commands.executeCommand('deku-pack.install');
+        // Ejecutamos la instalación de assets inmediatamente después de cambiar el tema
+        setTimeout(() => {
+            installThemeAssets(vscode.extensions.getExtension('angeltarcayadev.anime-ultimate-theme-pack')!.extensionContext);
+        }, 500);
     }
 }
 
-async function installThemeAssets(context: vscode.ExtensionContext, silent = false) {
+async function installThemeAssets(context: vscode.ExtensionContext | undefined, silent = false) {
     const config = vscode.workspace.getConfiguration('dekuPack');
+    const enabled = config.get<boolean>('enabled');
+    
+    if (!enabled) {
+        removeThemeAssets(true);
+        return;
+    }
+
     const customBg = config.get<string>('customBackground');
     const opacity = config.get<number>('opacity') || 0.3;
     const blur = config.get<string>('blur') || '0px';
     const anchor = config.get<string>('anchor') || 'center';
 
-    if (!customBg) {
-        if (!silent) {
-            vscode.window.showWarningMessage('Deku-Pack: No hay una imagen configurada. Por favor, añade una ruta en los settings (dekuPack.customBackground).');
+    let finalImageUrl = "";
+
+    // Lógica inteligente de selección de imagen
+    if (customBg && customBg.trim() !== "") {
+        // 1. Usar imagen personalizada del usuario
+        finalImageUrl = customBg;
+    } else {
+        // 2. Usar imagen por defecto del tema actual
+        const currentTheme = vscode.workspace.getConfiguration().get<string>('workbench.colorTheme') || "";
+        const imageName = THEME_IMAGE_MAP[currentTheme];
+        
+        if (imageName) {
+            // Construir ruta a la carpeta images de la extensión
+            const extensionPath = vscode.extensions.getExtension('angeltarcayadev.anime-ultimate-theme-pack')?.extensionPath;
+            if (extensionPath) {
+                finalImageUrl = path.join(extensionPath, 'images', imageName);
+            }
         }
+    }
+
+    if (!finalImageUrl) {
+        if (!silent) vscode.window.showWarningMessage('Deku-Pack: No se encontró una imagen para el tema actual. Configura una en "dekuPack.customBackground".');
         return;
     }
 
@@ -65,18 +103,15 @@ async function installThemeAssets(context: vscode.ExtensionContext, silent = fal
         const cssPath = getCssPath();
         let currentCss = fs.readFileSync(cssPath, 'utf-8');
 
-        // Limpiar inyecciones previas
+        // Limpieza de rastros anteriores
         currentCss = currentCss.replace(/\/\* --- DEKU PACK START --- \*\/[\s\S]*?\/\* --- DEKU PACK END --- \*\//g, '');
 
-        // VS Code 1.90+ bloquea file:/// por seguridad CSP, usamos vscode-file://vscode-app/
-        let imageUri = customBg;
-        if (!customBg.startsWith('http')) {
-            const isWin = process.platform === 'win32';
-            let fileUri = customBg.replace(/\\/g, '/');
-            if (fileUri.startsWith('/') === false && isWin) {
-                fileUri = '/' + fileUri;
-            }
-            imageUri = 'vscode-file://vscode-app' + fileUri;
+        // Formatear URI para VS Code 1.90+
+        let imageUri = finalImageUrl;
+        if (!finalImageUrl.startsWith('http')) {
+            let normalizedPath = finalImageUrl.replace(/\\/g, '/');
+            if (!normalizedPath.startsWith('/')) normalizedPath = '/' + normalizedPath;
+            imageUri = 'vscode-file://vscode-app' + normalizedPath;
         }
 
         const markerStart = '/* --- DEKU PACK START --- */';
@@ -99,7 +134,6 @@ body::after {
     opacity: ${opacity} !important;
     filter: blur(${blur}) !important;
 }
-/* Transparencias Estilo Doki Theme */
 .monaco-workbench, .monaco-workbench .part, .monaco-workbench .part > .content,
 .monaco-editor, .monaco-editor-background, .monaco-editor .margin,
 .editor-container, .editor-instance, .tabs-container, .tab,
@@ -109,7 +143,6 @@ body::after {
     background-color: transparent !important;
     background-image: none !important;
 }
-/* Fixes de visualización específicos */
 [id="workbench.parts.editor"] .split-view-view .editor-container .editor-instance>.monaco-editor .overflow-guard>.monaco-scrollable-element>.monaco-editor-background { background: none !important; }
 .lines-content.monaco-editor-background { background-color: transparent !important; }
 .overflow-guard > .margin, .overflow-guard > .margin > .margin-view-overlays,
@@ -121,21 +154,16 @@ ${markerEnd}
         fs.writeFileSync(cssPath, currentCss + injectedCss, 'utf-8');
 
         if (!silent) {
-            const result = await vscode.window.showInformationMessage(
-                'Deku-Pack: Assets instalados con éxito. Debes reiniciar VS Code para aplicar los cambios.',
-                'Reiniciar ahora'
-            );
-            if (result === 'Reiniciar ahora') {
-                vscode.commands.executeCommand('workbench.action.reloadWindow');
-            }
+            const res = await vscode.window.showInformationMessage('Deku-Pack: Assets actualizados. Reinicia para aplicar.', 'Reiniciar');
+            if (res === 'Reiniciar') vscode.commands.executeCommand('workbench.action.reloadWindow');
         }
 
-    } catch (error) {
-        vscode.window.showErrorMessage('Error al instalar Deku-Pack Assets: ' + error);
+    } catch (e) {
+        vscode.window.showErrorMessage('Error en Deku-Pack: ' + e);
     }
 }
 
-function removeThemeAssets() {
+function removeThemeAssets(silent = false) {
     try {
         const cssPath = getCssPath();
         let currentCss = fs.readFileSync(cssPath, 'utf-8');
@@ -143,25 +171,20 @@ function removeThemeAssets() {
         
         if (currentCss !== newCss) {
             fs.writeFileSync(cssPath, newCss, 'utf-8');
-            vscode.window.showInformationMessage('Deku-Pack: Assets eliminados. Reinicia VS Code.', 'Reiniciar').then(res => {
-                if (res === 'Reiniciar') vscode.commands.executeCommand('workbench.action.reloadWindow');
-            });
+            if (!silent) {
+                vscode.window.showInformationMessage('Deku-Pack: Assets eliminados.', 'Reiniciar').then(res => {
+                    if (res === 'Reiniciar') vscode.commands.executeCommand('workbench.action.reloadWindow');
+                });
+            }
         }
-    } catch (error) {
-        vscode.window.showErrorMessage('Error al eliminar Deku-Pack Assets: ' + error);
+    } catch (e) {
+        console.error(e);
     }
 }
 
 function getCssPath(): string {
-    const isWin = process.platform === 'win32';
     const appDir = path.dirname(require.main!.filename);
-    if (isWin) {
-        return path.join(appDir, 'vs', 'workbench', 'workbench.desktop.main.css');
-    } else {
-        return path.join(appDir, 'vs', 'workbench', 'workbench.desktop.main.css');
-    }
+    return path.join(appDir, 'vs', 'workbench', 'workbench.desktop.main.css');
 }
 
-export function deactivate() {
-    // Limpieza opcional
-}
+export function deactivate() {}

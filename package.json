@@ -23,10 +23,15 @@
     "configuration": {
       "title": "Deku Pack Pro",
       "properties": {
+        "dekuPack.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Habilitar/Deshabilitar el motor visual de fondos de Deku-Pack."
+        },
         "dekuPack.customBackground": {
           "type": "string",
           "default": "",
-          "description": "Ruta local o URL de la imagen de fondo personalizada."
+          "description": "Ruta local o URL de imagen personalizada. Si se deja vacío, usará la imagen oficial del tema de Anime seleccionado."
         },
         "dekuPack.opacity": {
           "type": "number",
@@ -38,7 +43,7 @@
         "dekuPack.blur": {
           "type": "string",
           "default": "0px",
-          "description": "Nivel de desenfoque (ej: 2px, 0px)."
+          "description": "Desenfoque (ej: 2px, 5px)."
         },
         "dekuPack.anchor": {
           "type": "string",
@@ -50,7 +55,7 @@
             "right"
           ],
           "default": "center",
-          "description": "Anclaje de la imagen de fondo."
+          "description": "Posición de la imagen."
         }
       }
     },

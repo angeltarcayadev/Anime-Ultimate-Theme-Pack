@@ -59,7 +59,14 @@ async function applyAnimeWallpaper(context: vscode.ExtensionContext, silent: boo
             }
         }
 
-        const cssImg = 'file:///' + imagePath.replace(/\\/g, '/');
+        // VS Code 1.90+ bloquea file:/// por seguridad CSP, usamos vscode-file://vscode-app/
+        const isWin = process.platform === 'win32';
+        let fileUri = imagePath.replace(/\\/g, '/');
+        if (fileUri.startsWith('/') === false && isWin) {
+            fileUri = '/' + fileUri;
+        }
+        const cssImg = 'vscode-file://vscode-app' + fileUri;
+
         const markerStart = '/* --- ANIME PACK PRO START --- */';
         const markerEnd = '/* --- ANIME PACK PRO END --- */';
 
@@ -74,12 +81,21 @@ body::after {
     background-size: cover !important;
     background-position: ${anchor} !important;
     background-repeat: no-repeat !important;
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
     opacity: ${opacity} !important;
     filter: blur(${blur}) !important;
 }
 /* Forzar transparencia en toda la UI de VS Code */
-.monaco-workbench,
+.monaco-workbench {
+    background: transparent !important;
+    z-index: 1 !important;
+}
 .monaco-workbench .part,
 .monaco-workbench .part > .content,
 .monaco-editor,

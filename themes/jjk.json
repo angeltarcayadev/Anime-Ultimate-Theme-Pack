@@ -1,0 +1,13 @@
+{
+  "name": "Jujutsu Kaisen: Gojo Satoru",
+  "colors": {
+    "editor.background": "#0D1117",
+    "editor.foreground": "#C9D1D9",
+    "activityBar.background": "#010409",
+    "sideBar.background": "#010409",
+    "statusBar.background": "#010409",
+    "editorCursor.foreground": "#58A6FF",
+    "editor.selectionBackground": "#1F6FEB88",
+    "activityBar.foreground": "#58A6FF"
+  }
+}

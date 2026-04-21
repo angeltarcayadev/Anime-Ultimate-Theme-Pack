@@ -1,0 +1,10 @@
+{
+  "name": "Cyberpunk: Neon Night",
+  "colors": {
+    "editor.background": "#050505",
+    "editor.foreground": "#F0F0F0",
+    "activityBar.background": "#000000",
+    "statusBar.background": "#F2E600",
+    "statusBar.foreground": "#000000"
+  }
+}

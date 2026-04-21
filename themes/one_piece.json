@@ -1,0 +1,9 @@
+{
+  "name": "One Piece: Straw Hat",
+  "colors": {
+    "editor.background": "#0F1419",
+    "editor.foreground": "#E1E1E1",
+    "activityBar.background": "#0A0D10",
+    "statusBar.background": "#B71C1C"
+  }
+}

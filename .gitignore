@@ -1,0 +1,7 @@
+node_modules
+out
+*.vsix
+.vscode-test
+vsc-extension-quickstart.md
+.DS_Store
+*.log

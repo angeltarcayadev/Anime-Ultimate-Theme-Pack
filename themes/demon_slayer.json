@@ -1,0 +1,9 @@
+{
+  "name": "Demon Slayer: Sakura",
+  "colors": {
+    "editor.background": "#141014",
+    "editor.foreground": "#F8BBD0",
+    "activityBar.background": "#0D0A0D",
+    "statusBar.background": "#880E4F"
+  }
+}

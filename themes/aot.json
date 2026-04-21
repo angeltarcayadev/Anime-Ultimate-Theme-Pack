@@ -1,0 +1,12 @@
+{
+  "name": "Attack on Titan: Eren",
+  "colors": {
+    "editor.background": "#1A1614",
+    "editor.foreground": "#D4C4B5",
+    "activityBar.background": "#14110F",
+    "sideBar.background": "#14110F",
+    "statusBar.background": "#3C2A21",
+    "editorCursor.foreground": "#8B0000",
+    "activityBar.foreground": "#8B0000"
+  }
+}

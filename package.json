@@ -1,0 +1,53 @@
+{
+  "name": "anime-ultimate-theme-pack",
+  "displayName": "Anime Theme Pack: Plus Ultra Edition",
+  "version": "2.0.0",
+  "publisher": "deku-dev",
+  "description": "9 Stunning Anime Themes (Naruto, JJK, AoT, MHA, One Piece, and more) with immersive background images.",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "main": "./out/deku-extension.js",
+  "icon": "icon.png",
+  "contributes": {
+    "themes": [
+      { "label": "Jujutsu Kaisen: Gojo Satoru", "uiTheme": "vs-dark", "path": "./themes/jjk.json" },
+      { "label": "Attack on Titan: Eren", "uiTheme": "vs-dark", "path": "./themes/aot.json" },
+      { "label": "Demon Slayer: Sakura", "uiTheme": "vs-dark", "path": "./themes/demon_slayer.json" },
+      { "label": "Akira: Neo Tokyo", "uiTheme": "vs-dark", "path": "./themes/akira.json" },
+      { "label": "Anime Classics", "uiTheme": "vs-dark", "path": "./themes/classics.json" },
+      { "label": "My Hero Academia: Deku", "uiTheme": "vs-dark", "path": "./themes/mha.json" },
+      { "label": "One Piece: Straw Hat", "uiTheme": "vs-dark", "path": "./themes/one_piece.json" },
+      { "label": "Cyberpunk: Neon Night", "uiTheme": "vs-dark", "path": "./themes/cyberpunk.json" },
+      { "label": "Naruto: Hokage Orange", "uiTheme": "vs-dark", "path": "./themes/naruto.json" }
+    ],
+    "configuration": {
+      "title": "Anime Theme Settings",
+      "properties": {
+        "animeTheme.background.enabled": { "type": "boolean", "default": true, "description": "Habilitar imágenes de fondo." },
+        "animeTheme.background.opacity": { "type": "number", "default": 0.15, "description": "Opacidad del fondo (0.05 a 0.5 recomendado)." },
+        "animeTheme.background.blur": { "type": "string", "default": "0px", "description": "Desenfoque del fondo (Ej: 2px, 5px)." },
+        "animeTheme.background.anchor": { "type": "string", "enum": ["center", "top", "bottom", "left", "right"], "default": "center", "description": "Posición de la imagen." },
+        "animeTheme.background.path": { "type": "string", "default": "", "description": "Ruta a una imagen personalizada." }
+      }
+    },
+    "commands": [
+      { "command": "animeTheme.installBackground", "title": "Anime Theme: Install Background for Current Theme" },
+      { "command": "animeTheme.removeBackground", "title": "Anime Theme: Remove Background Image" },
+      { "command": "animeTheme.chooseBackground", "title": "Anime Theme: Choose and Install Background" }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.90.0",
+    "typescript": "^5.0.0"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "Naruto: Hokage Orange",
+  "colors": {
+    "editor.background": "#120D0A",
+    "editor.foreground": "#FFD5B8",
+    "activityBar.background": "#0A0807",
+    "sideBar.background": "#0A0807",
+    "statusBar.background": "#E65100",
+    "editorCursor.foreground": "#FF9800",
+    "activityBar.foreground": "#FF9800"
+  }
+}

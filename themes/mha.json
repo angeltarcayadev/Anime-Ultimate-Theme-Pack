@@ -1,0 +1,12 @@
+{
+  "name": "My Hero Academia: Deku",
+  "colors": {
+    "editor.background": "#0B1612",
+    "editor.foreground": "#E0F2F1",
+    "activityBar.background": "#050B09",
+    "sideBar.background": "#050B09",
+    "statusBar.background": "#1B5E20",
+    "editorCursor.foreground": "#00E676",
+    "activityBar.foreground": "#00E676"
+  }
+}

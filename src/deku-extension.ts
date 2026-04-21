@@ -60,6 +60,9 @@ async function applyAnimeWallpaper(context: vscode.ExtensionContext, silent: boo
 
         const injectedCss = `
 ${markerStart}
+body {
+    background-color: transparent !important;
+}
 body::after {
     content: "";
     background-image: url('${cssImg}') !important;
@@ -70,9 +73,29 @@ body::after {
     opacity: ${opacity} !important;
     filter: blur(${blur}) !important;
 }
-.monaco-workbench, .monaco-workbench .part, .monaco-workbench .part > .content,
-.monaco-editor, .monaco-editor .margin, .monaco-editor-background,
-.editor-container, .editor-instance, .tabs-container, .tab, .composite.side-bar, .activitybar .content {
+/* Forzar transparencia en toda la UI de VS Code */
+.monaco-workbench,
+.monaco-workbench .part,
+.monaco-workbench .part > .content,
+.monaco-editor,
+.monaco-editor-background,
+.monaco-editor .margin,
+.editor-container,
+.editor-instance,
+.tabs-container,
+.tab,
+.activitybar,
+.activitybar .content,
+.sidebar,
+.composite.side-bar,
+.statusbar,
+.titlebar,
+.panel,
+.terminal,
+.monaco-list,
+.monaco-list-rows,
+.monaco-list-row {
+    background: transparent !important;
     background-color: transparent !important;
 }
 ${markerEnd}
@@ -88,8 +111,8 @@ ${markerEnd}
         fs.writeFileSync(cssPath, css, 'utf8');
 
         if (!silent) {
-            const action = await vscode.window.showInformationMessage('¡Visualización PRO Actualizada!', 'Reiniciar');
-            if (action === 'Reiniciar') vscode.commands.executeCommand('workbench.action.reloadWindow');
+            const action = await vscode.window.showInformationMessage('¡Configuración Aplicada! VS Code necesita reiniciarse para mostrar los cambios en la UI.', 'Reiniciar Ahora');
+            if (action === 'Reiniciar Ahora') vscode.commands.executeCommand('workbench.action.reloadWindow');
         }
     } catch (e) {}
 }
@@ -97,7 +120,7 @@ ${markerEnd}
 export function activate(context: vscode.ExtensionContext) {
     vscode.workspace.onDidChangeConfiguration(e => {
         if (e.affectsConfiguration('workbench.colorTheme') || e.affectsConfiguration('animeTheme.background')) {
-            applyAnimeWallpaper(context, true);
+            applyAnimeWallpaper(context, false);
         }
     });
 
@@ -112,14 +135,12 @@ export function activate(context: vscode.ExtensionContext) {
             const val = await vscode.window.showInputBox({ placeHolder: 'Ej: 0.2 (0 es transparente, 1 es opaco)' });
             if (val) {
                 await vscode.workspace.getConfiguration('animeTheme.background').update('opacity', parseFloat(val), true);
-                applyAnimeWallpaper(context, false);
             }
         }),
         vscode.commands.registerCommand('animeTheme.setBlur', async () => {
             const val = await vscode.window.showInputBox({ placeHolder: 'Ej: 5px (0px para nítido)' });
             if (val) {
                 await vscode.workspace.getConfiguration('animeTheme.background').update('blur', val, true);
-                applyAnimeWallpaper(context, false);
             }
         }),
         vscode.commands.registerCommand('animeTheme.removeBackground', async () => {

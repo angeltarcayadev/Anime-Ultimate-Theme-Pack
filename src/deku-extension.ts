@@ -123,6 +123,7 @@ body::after {
 }`;
         }
 
+        const wbOpacity = config.get<number>('workbenchOpacity') ?? 0.5;
         const transparencyFixes = `
 body { background-color: transparent !important; }
 .monaco-workbench, .monaco-workbench .part, .monaco-workbench .part > .content,
@@ -131,9 +132,16 @@ body { background-color: transparent !important; }
 .activitybar, .activitybar .content, .sidebar, .composite.side-bar,
 .statusbar, .titlebar, .panel, .terminal,
 .monaco-list, .monaco-list-rows, .monaco-list-row {
-    background-color: transparent !important;
+    background-color: rgba(20, 20, 20, ${wbOpacity}) !important;
     background-image: none !important;
+    backdrop-filter: blur(10px) !important;
 }
+
+/* Mantener el editor un poco más oscuro para lectura clara */
+.monaco-editor, .monaco-editor-background {
+    background-color: rgba(15, 15, 15, ${Math.min(wbOpacity + 0.1, 0.95)}) !important;
+}
+
 [id="workbench.parts.editor"] .split-view-view .editor-container .editor-instance>.monaco-editor .overflow-guard>.monaco-scrollable-element>.monaco-editor-background { background: none !important; }
 .lines-content.monaco-editor-background { background-color: transparent !important; }
 .overflow-guard > .margin, .overflow-guard > .margin > .margin-view-overlays,

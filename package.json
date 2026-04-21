@@ -69,6 +69,13 @@
           "type": "number",
           "default": 1.0,
           "description": "Opacidad del personaje (Sticker)."
+        },
+        "dekuPack.workbenchOpacity": {
+          "type": "number",
+          "default": 0.5,
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Opacidad de la interfaz (0 = invisible, 1 = sólido). El efecto 'Glass' de Doki se logra entre 0.4 y 0.7."
         }
       }
     },

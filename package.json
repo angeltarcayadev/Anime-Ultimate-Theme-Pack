@@ -20,72 +20,27 @@
   "main": "./out/deku-extension.js",
   "icon": "icon.png",
   "contributes": {
-    "themes": [
-      {
-        "label": "Jujutsu Kaisen: Gojo Satoru",
-        "uiTheme": "vs-dark",
-        "path": "./themes/jjk.json"
-      },
-      {
-        "label": "Attack on Titan: Eren",
-        "uiTheme": "vs-dark",
-        "path": "./themes/aot.json"
-      },
-      {
-        "label": "Demon Slayer: Sakura",
-        "uiTheme": "vs-dark",
-        "path": "./themes/demon_slayer.json"
-      },
-      {
-        "label": "Akira: Neo Tokyo",
-        "uiTheme": "vs-dark",
-        "path": "./themes/akira.json"
-      },
-      {
-        "label": "Anime Classics",
-        "uiTheme": "vs-dark",
-        "path": "./themes/classics.json"
-      },
-      {
-        "label": "My Hero Academia: Deku",
-        "uiTheme": "vs-dark",
-        "path": "./themes/mha.json"
-      },
-      {
-        "label": "One Piece: Straw Hat",
-        "uiTheme": "vs-dark",
-        "path": "./themes/one_piece.json"
-      },
-      {
-        "label": "Cyberpunk: Neon Night",
-        "uiTheme": "vs-dark",
-        "path": "./themes/cyberpunk.json"
-      },
-      {
-        "label": "Naruto: Hokage Orange",
-        "uiTheme": "vs-dark",
-        "path": "./themes/naruto.json"
-      }
-    ],
     "configuration": {
-      "title": "Anime Theme Settings",
+      "title": "Deku Pack Pro",
       "properties": {
-        "animeTheme.background.enabled": {
-          "type": "boolean",
-          "default": true,
-          "description": "Habilitar imágenes de fondo."
+        "dekuPack.customBackground": {
+          "type": "string",
+          "default": "",
+          "description": "Ruta local o URL de la imagen de fondo personalizada."
         },
-        "animeTheme.background.opacity": {
+        "dekuPack.opacity": {
           "type": "number",
-          "default": 0.15,
-          "description": "Opacidad del fondo (0.05 a 0.5 recomendado)."
+          "default": 0.3,
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Opacidad del fondo (0.0 a 1.0)."
         },
-        "animeTheme.background.blur": {
+        "dekuPack.blur": {
           "type": "string",
           "default": "0px",
-          "description": "Desenfoque del fondo (Ej: 2px, 5px)."
+          "description": "Nivel de desenfoque (ej: 2px, 0px)."
         },
-        "animeTheme.background.anchor": {
+        "dekuPack.anchor": {
           "type": "string",
           "enum": [
             "center",
@@ -95,40 +50,72 @@
             "right"
           ],
           "default": "center",
-          "description": "Posición de la imagen."
-        },
-        "animeTheme.background.path": {
-          "type": "string",
-          "default": "",
-          "description": "Ruta a una imagen personalizada."
+          "description": "Anclaje de la imagen de fondo."
         }
       }
     },
     "commands": [
       {
-        "command": "animeTheme.installBackground",
-        "category": "Anime Theme",
-        "title": "Install Background for Current Theme"
+        "command": "deku-pack.install",
+        "title": "Deku-Pack: Install Theme Assets",
+        "category": "Deku-Pack"
       },
       {
-        "command": "animeTheme.removeBackground",
-        "category": "Anime Theme",
-        "title": "Remove Background Image"
+        "command": "deku-pack.remove",
+        "title": "Deku-Pack: Remove Theme Assets",
+        "category": "Deku-Pack"
       },
       {
-        "command": "animeTheme.chooseBackground",
-        "category": "Anime Theme",
-        "title": "Choose and Install Background"
+        "command": "deku-pack.select-theme",
+        "title": "Deku-Pack: Select Anime Theme",
+        "category": "Deku-Pack"
+      }
+    ],
+    "themes": [
+      {
+        "label": "Deku-Pack: My Hero Academia",
+        "uiTheme": "vs-dark",
+        "path": "./themes/mha.json"
       },
       {
-        "command": "animeTheme.setOpacity",
-        "category": "Anime Theme",
-        "title": "Set Background Opacity"
+        "label": "Deku-Pack: Jujutsu Kaisen",
+        "uiTheme": "vs-dark",
+        "path": "./themes/jjk.json"
       },
       {
-        "command": "animeTheme.setBlur",
-        "category": "Anime Theme",
-        "title": "Set Background Blur"
+        "label": "Deku-Pack: Attack on Titan",
+        "uiTheme": "vs-dark",
+        "path": "./themes/aot.json"
+      },
+      {
+        "label": "Deku-Pack: Demon Slayer",
+        "uiTheme": "vs-dark",
+        "path": "./themes/demon_slayer.json"
+      },
+      {
+        "label": "Deku-Pack: One Piece",
+        "uiTheme": "vs-dark",
+        "path": "./themes/one_piece.json"
+      },
+      {
+        "label": "Deku-Pack: Cyberpunk Night",
+        "uiTheme": "vs-dark",
+        "path": "./themes/cyberpunk.json"
+      },
+      {
+        "label": "Deku-Pack: Naruto Hokage",
+        "uiTheme": "vs-dark",
+        "path": "./themes/naruto.json"
+      },
+      {
+        "label": "Deku-Pack: Akira Neo Tokyo",
+        "uiTheme": "vs-dark",
+        "path": "./themes/akira.json"
+      },
+      {
+        "label": "Deku-Pack: Anime Classics",
+        "uiTheme": "vs-dark",
+        "path": "./themes/classics.json"
       }
     ],
     "configurationDefaults": {

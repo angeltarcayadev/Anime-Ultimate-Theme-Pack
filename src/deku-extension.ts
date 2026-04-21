@@ -92,8 +92,7 @@ body::after {
     backdrop-filter: blur(10px) !important; 
 }
 
-/* Letras e Iconos con el color del tema (UI Total) */
-.monaco-list-row.selected .label-name, .monaco-list-row.selected .action-label,
+/* Letras e Iconos con el color del tema (INTERFAZ MAESTRA) */
 .tab.active .label-name, .action-item.active .action-label,
 .monaco-workbench .part.statusbar, .activitybar .action-label,
 .menubar-menu-button, .menubar-menu-title, /* Barra de menús superior */
@@ -101,6 +100,11 @@ body::after {
 .monaco-link, /* Enlaces y botones de bienvenida */
 .monaco-button.monaco-text-button {
     color: var(--deku-accent) !important;
+}
+
+/* Dejamos los archivos del explorador por defecto, pero el resaltado de selección será el acento */
+.monaco-list-row.selected {
+    border-left: 3px solid var(--deku-accent) !important;
 }
 
 .monaco-workbench .activitybar .content .action-item.active .action-label,

@@ -26,24 +26,22 @@
         "dekuPack.enabled": {
           "type": "boolean",
           "default": true,
-          "description": "Habilitar/Deshabilitar el motor visual de fondos de Deku-Pack."
+          "description": "Encender/Apagar el fondo de pantalla (Wallpaper)."
         },
         "dekuPack.customBackground": {
           "type": "string",
           "default": "",
-          "description": "Ruta local o URL de imagen personalizada. Si se deja vacío, usará la imagen oficial del tema de Anime seleccionado."
+          "description": "Ruta/URL del Wallpaper personalizado. (Vacío = automático)."
         },
         "dekuPack.opacity": {
           "type": "number",
           "default": 0.3,
-          "minimum": 0,
-          "maximum": 1,
-          "description": "Opacidad del fondo (0.0 a 1.0)."
+          "description": "Opacidad del Wallpaper."
         },
         "dekuPack.blur": {
           "type": "string",
           "default": "0px",
-          "description": "Desenfoque (ej: 2px, 5px)."
+          "description": "Desenfoque del Wallpaper."
         },
         "dekuPack.anchor": {
           "type": "string",
@@ -55,7 +53,22 @@
             "right"
           ],
           "default": "center",
-          "description": "Posición de la imagen."
+          "description": "Posición del Wallpaper."
+        },
+        "dekuPack.stickerEnabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Encender/Apagar el personaje (Sticker) en la esquina inferior derecha."
+        },
+        "dekuPack.stickerCustomPath": {
+          "type": "string",
+          "default": "",
+          "description": "Ruta/URL de un personaje personalizado para el Sticker."
+        },
+        "dekuPack.stickerOpacity": {
+          "type": "number",
+          "default": 1.0,
+          "description": "Opacidad del personaje (Sticker)."
         }
       }
     },
